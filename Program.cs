@@ -1,4 +1,5 @@
-﻿using static System.Formats.Asn1.AsnWriter;
+﻿using System.Collections.Generic;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace TwentyOne
 {
@@ -14,15 +15,15 @@ namespace TwentyOne
     class Dealer
     {
         private Deck _deck = new Deck();
-        private Player _players = new Player();
+        private Player _player = new Player();
 
-        public void Work ()
+        public void Work()
         {
             const string CommandAddCardsPlayer = "1";
             const string CommandShowCardsPlayer = "2";
             const string CommandExit = "3";
 
-            bool isWork = true;         
+            bool isWork = true;
 
             while (isWork)
             {
@@ -37,12 +38,12 @@ namespace TwentyOne
                 switch (userInput)
                 {
                     case CommandAddCardsPlayer:
-                        TransferCard(_players);
+                        TransferCard(_player);
                         break;
 
                     case CommandShowCardsPlayer:
-                        _players.ShowCards();
-                        break;                 
+                        _player.ShowCards();
+                        break;
 
                     case CommandExit:
                         isWork = false;
@@ -60,14 +61,27 @@ namespace TwentyOne
         {
             Console.WriteLine($"Сколько карт передать игроку?");
 
-            if (_deck.TryGetCard(out Card card))
+            int lowerLimit = 0;
+            int quantityCards = Utilite.GetNumber(lowerLimit);
+
+            for (int i = 0; i < quantityCards; i++)
             {
-                player.TakeCard(card);
+                KneadCards();
+
+                if (_deck.TryGetCard(out Card card))
+                {
+                    player.TakeCard(card);
+                }
             }
         }
 
+        private void KneadCards()
+        {
+            int quantityCardsDeck = _deck.GetNumbersCards();
 
-
+            if (quantityCardsDeck == 0)
+                _deck.CreateNew();
+        }
     }
 
     class Player
@@ -93,7 +107,7 @@ namespace TwentyOne
                 _cards[i].ShowInfo();
             }
 
-            Console.WriteLine();
+            Console.ReadKey();
         }
 
         public void ClearHand()
@@ -186,7 +200,7 @@ namespace TwentyOne
 
         public void ShowInfo()
         {
-            Console.Write($"{Rank}{Suit} ");
+            Console.Write($"{Rank}{Suit} ;");
         }
     }
 
