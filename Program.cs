@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using static System.Formats.Asn1.AsnWriter;
 
-namespace TwentyOne
+namespace NewC_6_4
 {
     class Program
     {
@@ -246,5 +246,4 @@ namespace TwentyOne
             }
         }
     }
-
 }
