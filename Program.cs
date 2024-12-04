@@ -80,18 +80,13 @@ namespace NewC_6_4
             int quantityCardsDeck = _deck.GetNumbersCards();
 
             if (quantityCardsDeck == 0)
-                _deck.CreateNew();
+                _deck.FillCards();
         }
     }
 
     class Player
     {
         private List<Card> _cards = new List<Card>();
-
-        public List<Card> GetCards()
-        {
-            return _cards.ToList();
-        }
 
         public void TakeCard(Card card)
         {
@@ -109,11 +104,6 @@ namespace NewC_6_4
 
             Console.ReadKey();
         }
-
-        public void ClearHand()
-        {
-            _cards.Clear();
-        }
     }
 
     class Deck
@@ -123,10 +113,10 @@ namespace NewC_6_4
 
         public Deck()
         {
-            CreateNew();
+            FillCards();
         }
 
-        public void CreateNew()
+        public void FillCards()
         {
             List<Card> cards = CreateCards();
             ShuffleCards(cards);
@@ -188,18 +178,18 @@ namespace NewC_6_4
 
     class Card
     {
+        private string _rank;
+        private string _suit;
+
         public Card(string rank, string suit)
         {
-            Rank = rank;
-            Suit = suit;
+            _rank = rank;
+            _suit = suit;
         }
-
-        public string Rank { get; private set; }
-        public string Suit { get; private set; }
 
         public void ShowInfo()
         {
-            Console.Write($"{Rank}{Suit} ");
+            Console.Write($"{_rank}{_suit} ");
         }
     }
 
@@ -238,10 +228,8 @@ namespace NewC_6_4
                 Console.WriteLine($"Число вышло за верхний предел допустимого значения.");
                 return false;
             }
-            else
-            {
-                return true;
-            }
+
+            return true;
         }
     }
 }
