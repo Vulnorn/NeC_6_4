@@ -62,7 +62,7 @@ namespace NewC_6_4
             Console.WriteLine($"Сколько карт передать игроку?");
 
             int lowerLimit = 0;
-            int quantityCards = Utilite.GetNumber(lowerLimit);
+            int quantityCards = Utilite.GetNumberInRange(lowerLimit);
 
             for (int i = 0; i < quantityCards; i++)
             {
@@ -118,7 +118,7 @@ namespace NewC_6_4
 
     class Deck
     {
-        private static Random _random = new Random();
+        private static Random s_random = new Random();
         private Stack<Card> _cards = new Stack<Card>();
 
         public Deck()
@@ -162,14 +162,13 @@ namespace NewC_6_4
 
         private void ShuffleCards(List<Card> cards)
         {
-
             for (int i = 0; i < cards.Count; i++)
             {
                 int randomIndex = i;
 
                 while (randomIndex == i)
                 {
-                    randomIndex = _random.Next(cards.Count);
+                    randomIndex = s_random.Next(cards.Count);
                 }
 
                 Card card = cards[randomIndex];
@@ -200,14 +199,13 @@ namespace NewC_6_4
 
         public void ShowInfo()
         {
-            Console.Write($"{Rank}{Suit} ;");
+            Console.Write($"{Rank}{Suit} ");
         }
     }
 
     class Utilite
     {
-
-        public static int GetNumber(int lowerLimitRangeNumbers = Int32.MinValue, int upperLimitRangeNumbers = Int32.MaxValue)
+        public static int GetNumberInRange(int lowerLimitRangeNumbers = Int32.MinValue, int upperLimitRangeNumbers = Int32.MaxValue)
         {
             bool isEnterNumber = true;
             int enterNumber = 0;
@@ -221,14 +219,14 @@ namespace NewC_6_4
 
                 if (int.TryParse(userInput, out enterNumber) == false)
                     Console.WriteLine("Не корректный ввод.");
-                else if (VerifyForAcceptableNumber(enterNumber, lowerLimitRangeNumbers, upperLimitRangeNumbers))
+                else if (HasNumberInRange(enterNumber, lowerLimitRangeNumbers, upperLimitRangeNumbers))
                     isEnterNumber = false;
             }
 
             return enterNumber;
         }
 
-        private static bool VerifyForAcceptableNumber(int number, int lowerLimitRangeNumbers, int upperLimitRangeNumbers)
+        private static bool HasNumberInRange(int number, int lowerLimitRangeNumbers, int upperLimitRangeNumbers)
         {
             if (number < lowerLimitRangeNumbers)
             {
